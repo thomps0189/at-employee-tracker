@@ -1,17 +1,19 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-// const Connection = require('mysql2/typings/mysql/lib/Connection');
+const cTable = require('console.table');
+
 
 // Inquirer options: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
-var con = mysql.createConnection({
+var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'Arabella2022!$100',
-    database: 'employees_dB'
+    database: 'employees_dB',
+    
     
 })
 
-con.connect(function(err) {
+connection.connect(function(err) {
     if (err) throw err;
     promptUser();
     console.log("Connected!");
@@ -25,14 +27,14 @@ const promptUser = () => {
             type: "list",
             name: "options",
             message: "What would you like to do?",
-            choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add a Departmnet', 'Add a Role', 'Add an Employee', 'Update an Employee Role', 'Finish']
+            choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add a Department', 'Add a Role', 'Add an Employee', 'Update an Employee Role', 'Finish']
         }
     ])
     .then(({ options }) => {
         switch (options) {
             case 'View All Departments':
                 viewDepartments();
-                return;
+                break;
             case 'View All Roles':
                 viewRoles();
                 return;
@@ -59,11 +61,29 @@ const promptUser = () => {
 };
 
 function viewDepartments() {
-    console.log("This is working");
+    connection.query(
+        `SELECT * FROM department`,
+        function(err, results) {
+            console.table(results);
+
+            if (err) throw err;
+        }
+    )
+
+    promptUser();
 }
 
 function viewRoles() {
-    console.log("This is working");
+    connection.query(
+        `SELECT * FROM roles`,
+        function(err, results) {
+            console.table(results);
+
+            if (err) throw err;
+        }
+    )
+
+    promptUser();
 }
 
 function viewEmployees() {
@@ -71,6 +91,7 @@ function viewEmployees() {
 }
 
 function addDepartment() {
+    // DO I JUST USE 'INSERT INTO' FOR THE NEXT 3 ITEMS? Inquirer prompt then query
     console.log("This is working");
 }
 
