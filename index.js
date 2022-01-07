@@ -1,12 +1,13 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const Connection = require('mysql2/typings/mysql/lib/Connection');
+// const Connection = require('mysql2/typings/mysql/lib/Connection');
 
 // Inquirer options: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
 var con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'Arabella2022!$100',
+    database: 'employees_dB'
     
 })
 
@@ -15,42 +16,72 @@ con.connect(function(err) {
     promptUser();
     console.log("Connected!");
 })
+
+
 // View all departments
 const promptUser = () => {
     return inquirer.prompt([
         {
-            type: "checkbox",
+            type: "list",
             name: "options",
             message: "What would you like to do?",
             choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add a Departmnet', 'Add a Role', 'Add an Employee', 'Update an Employee Role', 'Finish']
         }
     ])
-    .then(function ({ options }) {
+    .then(({ options }) => {
         switch (options) {
             case 'View All Departments':
                 viewDepartments();
-                break;
+                return;
             case 'View All Roles':
                 viewRoles();
-                break;
+                return;
             case 'View All Employees':
                 viewEmployees();
-                break;
+                return;
             case 'Add a Department':
                 addDepartment();
-                break;
+                return;
             case 'Add a Role':
                 addRole();
-                break;
+                return;
             case 'Add an Employee':
                 addEmployee();
-                break;
-            case 'Update an Employee':
+                return;
+            case 'Update an Employee Role':
                 updateEmployee();
-                break; 
+                return; 
             case 'Finish':
                connection.end();
-               break;                
+               return;                
         }
     }) 
 };
+
+function viewDepartments() {
+    console.log("This is working");
+}
+
+function viewRoles() {
+    console.log("This is working");
+}
+
+function viewEmployees() {
+    console.log("This is working");
+}
+
+function addDepartment() {
+    console.log("This is working");
+}
+
+function addRole() {
+    console.log("This is working");
+}
+
+function addEmployee() {
+    console.log("This is working");
+}
+
+function updateEmployee() {
+    console.log("This is working");
+}

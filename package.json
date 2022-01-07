@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/thomps0189/at-employee-tracker#readme",
   "dependencies": {
+    "inquirer": "^8.2.0",
     "mysql2": "^2.3.3"
   }
 }
