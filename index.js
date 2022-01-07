@@ -87,12 +87,40 @@ function viewRoles() {
 }
 
 function viewEmployees() {
-    console.log("This is working");
+    connection.query(
+        `SELECT * FROM employees`,
+        function(err, results) {
+            console.table(results);
+
+            if (err) throw err;
+        }
+    )
+
+    promptUser();
 }
 
 function addDepartment() {
-    // DO I JUST USE 'INSERT INTO' FOR THE NEXT 3 ITEMS? Inquirer prompt then query
-    console.log("This is working");
+    // DO I JUST USE 'INSERT INTO' FOR THE NEXT 3 ITEMS? Inquirer prompt then query --enter the name of the department and that department is added to the database
+    
+        return inquirer.prompt([
+            {
+                type: "input",
+                name: "newDepartment",
+                message: "What is the name of the department you would like to add?",
+            }
+        ])
+        .then(({ answers }) => {
+            connection.query(
+                `INSERT INTO department (name)
+                VALUES('${answers}')`,
+                function(err, results) {
+                    console.table(results);
+                    
+        
+                    if (err) throw err;
+                }
+            )
+        }) 
 }
 
 function addRole() {
