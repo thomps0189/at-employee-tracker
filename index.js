@@ -30,10 +30,10 @@ const promptUser = () => {
             choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add a Department', 'Add a Role', 'Add an Employee', 'Update an Employee Role', 'Finish']
         }
     ])
-    .then(({ options }) => {
+    .then(async ({ options }) => {
         switch (options) {
             case 'View All Departments':
-                viewDepartments();
+                await viewDepartments();
                 break;
             case 'View All Roles':
                 viewRoles();
@@ -61,7 +61,7 @@ const promptUser = () => {
 };
 
 function viewDepartments() {
-    connection.query(
+     connection.query(
         `SELECT * FROM department`,
         function(err, results) {
             console.table(results);
@@ -100,32 +100,54 @@ function viewEmployees() {
 }
 
 function addDepartment() {
-    // DO I JUST USE 'INSERT INTO' FOR THE NEXT 3 ITEMS? Inquirer prompt then query --enter the name of the department and that department is added to the database
-    
-        return inquirer.prompt([
-            {
-                type: "input",
-                name: "newDepartment",
-                message: "What is the name of the department you would like to add?",
-            }
-        ])
-        .then(({ answers }) => {
-            connection.query(
-                `INSERT INTO department (name)
-                VALUES('${answers}')`,
-                function(err, results) {
-                    console.table(results);
-                    
-        
-                    if (err) throw err;
-                }
-            )
-        }) 
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the name of the new department?",
+            name: "name"
+        }
+    ]).then(function (response) {
+        addNewDepartment(response)
+    })
 }
 
-function addRole() {
-    console.log("This is working");
+function addNewDepartment(data) {
+    connection.query("INSERT INTO department SET ?", {name: data.name },
+    function (err, res) {
+        if (err) throw err;
+        console.log(res);
+        viewDepartments();
+    }); 
 }
+
+
+
+// function addRole() {
+//     return inquirer.prompt([
+//         {
+//             type: "input",
+//             name: "newRole",
+//             message: "What is the new role you'd like to add?"
+//         }
+//     ]).then(function (answer) {
+//         console.log("answer", answer.roleId);
+
+//         var query =
+//         `SELECT e.id, e.first_name, e.last_name, r.title, d.name AS department
+//         FROM employee e
+//         JOIN role r
+//         ON e.role_id = r.id
+//         JOIN department d
+//         ON d.id = r.department_id
+//         WHERE d.id =?`
+
+//         connection.query(query, answer.roleId, function (err, res) {
+//             if (err) throw err;
+//             console.table("response", res);
+//             console.log(res.affectedRows + "Roles are views!\n");
+//         })
+//     })
+// }
 
 function addEmployee() {
     console.log("This is working");
