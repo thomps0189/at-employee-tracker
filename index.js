@@ -215,10 +215,11 @@ function updateEmployee() {
 }
 
 function updateEmployeeRole(data) {
-    connection.query(`UPDATE employee SET role_id = ${data.updRole} WHERE id = ${data.updEmployee}`),
+    connection.query(`UPDATE employees SET role_id = ${data.updRole} WHERE id = ${data.updEmployee}`),
     function(err, res) {
         if (err) throw err;
         console.log(res);
-        viewEmployees();
+        
     }
+   viewEmployees(); 
 }
