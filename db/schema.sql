@@ -26,6 +26,7 @@ CREATE TABLE employees (
     id INTEGER NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(50) NULL,
     last_name VARCHAR(50) NULL,
-    role_id INTEGER NULL,
+    role_id INTEGER NOT NULL,
+    manager_id INTEGER NULL,
     PRIMARY KEY (id)
 );
